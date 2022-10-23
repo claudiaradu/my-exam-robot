@@ -11,6 +11,7 @@ Library             RPA.Tables
 Library             RPA.PDF
 Library             RPA.RobotLogListener
 Library             RPA.Archive
+Library             RPA.Robocorp.Vault
 
 
 *** Variables ***
@@ -19,6 +20,7 @@ ${pdf_folder}       ${OUTPUT_DIR}${/}pdf_files
 
 *** Tasks ***
 Order robots from RobotSpareBin Industries Inc
+    Get and log the author name from a vault
     Open the robot order website
     Download the orders file
     ${orders}=    Read the orders file
@@ -35,6 +37,7 @@ Order robots from RobotSpareBin Industries Inc
         Order another robot
     END
     Create a Zip File of the Receipts
+    Get and log the author name from a vault
 
 
 *** Keywords ***
@@ -100,3 +103,7 @@ Embed the robot screenshot to the receipt PDF file
 Create a Zip File of the Receipts
     ${zip_file_name}=    Set Variable    ${OUTPUT_DIR}/PDFs.zip
     Archive Folder With ZIP    ${pdf_folder}    ${zip_file_name}    recursive=True    include=*.pdf
+
+Get and log the author name from a vault
+    ${secret}=    Get Secret    author
+    Log    ${secret}[author]
